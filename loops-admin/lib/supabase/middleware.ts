@@ -35,6 +35,11 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
+  // Skip API routes - they handle their own authentication
+  if (request.nextUrl.pathname.startsWith('/api')) {
+    return supabaseResponse
+  }
+
   if (
     !user &&
     !request.nextUrl.pathname.startsWith('/login') &&
@@ -47,7 +52,7 @@ export async function updateSession(request: NextRequest) {
     url.pathname = '/login'
     return NextResponse.redirect(url)
   }
-console.log('supabaseResponse', supabaseResponse.cookies.getAll())
+
   return supabaseResponse
 }
 
