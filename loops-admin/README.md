@@ -10,6 +10,7 @@ A comprehensive user management system built with Next.js that includes authenti
 - ✅ Analytics dashboard with conversion rates
 - ✅ Secure Row Level Security (RLS) policies
 - ✅ Modern, responsive UI with dark mode support
+- ✅ Atomic Design component architecture for maintainability and reusability
 
 ## Tech Stack
 
@@ -105,12 +106,158 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 │   ├── login/             # Sign in page
 │   ├── signup/            # Sign up page
 │   └── invite/[token]/    # Invitation acceptance page
+├── components/            # Atomic design component library
+│   ├── atoms/             # Basic building blocks
+│   ├── molecules/         # Simple component combinations
+│   ├── organisms/         # Complex UI components
+│   └── templates/         # Page-level layouts
 ├── lib/
 │   └── supabase/          # Supabase client utilities
 ├── supabase/
 │   └── schema.sql         # Database schema
 └── middleware.ts          # Auth middleware
 ```
+
+## Component Architecture: Atomic Design Pattern
+
+This project follows the **Atomic Design** methodology, which organizes components into a hierarchical structure from smallest to largest. This approach promotes reusability, consistency, and maintainability.
+
+### What is Atomic Design?
+
+Atomic Design breaks down interfaces into five distinct levels:
+
+1. **Atoms** - Basic building blocks (buttons, inputs, labels)
+2. **Molecules** - Simple combinations of atoms (form fields, search bars)
+3. **Organisms** - Complex UI components (headers, forms, tables)
+4. **Templates** - Page-level layouts
+5. **Pages** - Specific page implementations
+
+### Component Structure
+
+#### Atoms (`components/atoms/`)
+
+Basic, indivisible UI elements that cannot be broken down further:
+
+- **Button** - Reusable button with variants (primary, secondary, ghost), sizes, and loading states
+- **Input** - Form input with error states and dark mode support
+- **Label** - Form label with optional required indicator
+- **Badge** - Status badge with color variants (success, warning, error, info)
+- **Alert** - Alert message component with variants
+- **Card** - Container component for content sections
+
+**Example:**
+```tsx
+import { Button } from '@/components/atoms'
+
+<Button variant="primary" size="md" isLoading={isLoading}>
+  Submit
+</Button>
+```
+
+#### Molecules (`components/molecules/`)
+
+Simple combinations of atoms that form functional units:
+
+- **FormField** - Combines Label + Input with error handling
+- **MetricCard** - Displays a metric with label and value
+- **StatusBadge** - Badge that automatically maps status strings to color variants
+
+**Example:**
+```tsx
+import { FormField } from '@/components/molecules'
+
+<FormField
+  label="Email address"
+  required
+  inputProps={{
+    id: 'email',
+    type: 'email',
+    value: email,
+    onChange: (e) => setEmail(e.target.value),
+  }}
+  error={errors.email}
+/>
+```
+
+#### Organisms (`components/organisms/`)
+
+Complex components that combine molecules and atoms into meaningful UI sections:
+
+- **NavBar** - Navigation bar with title and sign out functionality
+- **MetricsGrid** - Grid layout displaying multiple metric cards
+- **InviteForm** - Complete invitation form with validation and success states
+- **InvitationsTable** - Table displaying all invitations with status badges
+- **ConversionsList** - List of conversions with user information
+- **AuthForm** - Reusable authentication form component
+
+**Example:**
+```tsx
+import { InviteForm } from '@/components/organisms'
+
+<InviteForm
+  onSubmit={handleInvite}
+  isLoading={isLoading}
+  error={error}
+  successMessage="Invitation sent!"
+  inviteLink={inviteLink}
+  onCopyLink={copyLink}
+/>
+```
+
+#### Templates (`components/templates/`)
+
+Page-level layouts that define the structure of pages:
+
+- **AuthLayout** - Layout wrapper for authentication pages
+- **DashboardLayout** - Layout wrapper for dashboard pages with navigation
+
+**Example:**
+```tsx
+import { DashboardLayout } from '@/components/templates'
+
+<DashboardLayout title="Loops Admin" onSignOut={handleSignOut}>
+  {/* Page content */}
+</DashboardLayout>
+```
+
+### Benefits of This Architecture
+
+1. **Reusability** - Components can be easily reused across different pages
+2. **Consistency** - Shared design system ensures consistent UI/UX
+3. **Maintainability** - Changes to base components propagate throughout the app
+4. **Scalability** - Easy to add new components following the established pattern
+5. **Type Safety** - All components are fully typed with TypeScript
+6. **Developer Experience** - Clear component hierarchy makes code easier to understand
+
+### Using Components
+
+All components are exported from their respective index files for easy importing:
+
+```tsx
+// Import from specific category
+import { Button, Input, Label } from '@/components/atoms'
+import { FormField, MetricCard } from '@/components/molecules'
+import { NavBar, InviteForm } from '@/components/organisms'
+import { DashboardLayout } from '@/components/templates'
+
+// Or import everything from the main index
+import { Button, FormField, NavBar, DashboardLayout } from '@/components'
+```
+
+### Adding New Components
+
+When adding new components, follow these guidelines:
+
+1. **Atoms** - Single-purpose, highly reusable elements
+2. **Molecules** - Combine 2-3 atoms for a specific function
+3. **Organisms** - Combine multiple molecules/atoms for complex features
+4. **Templates** - Page-level structure, not page-specific content
+
+Always:
+- Export components from the appropriate `index.ts` file
+- Include TypeScript interfaces for props
+- Support dark mode via Tailwind classes
+- Make components accessible (ARIA labels, keyboard navigation)
 
 ## Development
 
