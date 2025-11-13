@@ -17,6 +17,29 @@ export async function POST(request: Request) {
     )
   }
 
+  // Ensure profile exists (for users who signed up before trigger was set up)
+  const { data: existingProfile } = await supabase
+    .from('profiles')
+    .select('id')
+    .eq('id', user.id)
+    .single()
+
+  if (!existingProfile) {
+    // Create profile if it doesn't exist
+    const { error: profileError } = await supabase.from('profiles').insert({
+      id: user.id,
+      email: user.email || '',
+      full_name: user.user_metadata?.full_name || '',
+    })
+
+    if (profileError) {
+      return NextResponse.json(
+        { error: 'Failed to create user profile. Please try signing out and back in.' },
+        { status: 500 }
+      )
+    }
+  }
+
   const { email } = await request.json()
 
   if (!email) {

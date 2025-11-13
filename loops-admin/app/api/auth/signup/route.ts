@@ -38,6 +38,22 @@ export async function POST(request: Request) {
       )
     }
 
+    // Ensure profile exists (fallback in case trigger didn't fire)
+    const { data: existingProfile } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('id', authData.user.id)
+      .single()
+
+    if (!existingProfile) {
+      // Create profile if it doesn't exist
+      await supabase.from('profiles').insert({
+        id: authData.user.id,
+        email: authData.user.email || email,
+        full_name: fullName || authData.user.user_metadata?.full_name || '',
+      })
+    }
+
     // If there's an invitation token, process the conversion
     if (invitationToken) {
       // Get the invitation
