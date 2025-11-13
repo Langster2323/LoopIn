@@ -126,7 +126,9 @@ export default function DashboardPage() {
       <nav className="bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
-            <h1 className="text-xl font-bold text-black dark:text-zinc-50">Loops Admin</h1>
+            <h1 className="text-xl font-bold text-black dark:text-zinc-50">
+              Loops Admin
+            </h1>
             <button
               onClick={handleSignOut}
               className="text-sm text-zinc-600 dark:text-zinc-400 hover:text-black dark:hover:text-zinc-50"
@@ -140,7 +142,11 @@ export default function DashboardPage() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
           <h2 className="text-2xl font-bold text-black dark:text-zinc-50 mb-2">
-            Welcome back{user?.user_metadata?.full_name ? `, ${user.user_metadata.full_name}` : ''}!
+            Welcome back
+            {user?.user_metadata?.full_name
+              ? `, ${user.user_metadata.full_name}`
+              : ''}
+            !
           </h2>
           <p className="text-zinc-600 dark:text-zinc-400">
             Manage your invitations and track conversions
@@ -151,20 +157,36 @@ export default function DashboardPage() {
         {metrics && (
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
             <div className="bg-white dark:bg-zinc-900 p-6 rounded-lg shadow">
-              <p className="text-sm text-zinc-600 dark:text-zinc-400">Total Invitations</p>
-              <p className="text-2xl font-bold text-black dark:text-zinc-50">{metrics.totalInvitations}</p>
+              <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                Total Invitations
+              </p>
+              <p className="text-2xl font-bold text-black dark:text-zinc-50">
+                {metrics.totalInvitations}
+              </p>
             </div>
             <div className="bg-white dark:bg-zinc-900 p-6 rounded-lg shadow">
-              <p className="text-sm text-zinc-600 dark:text-zinc-400">Accepted</p>
-              <p className="text-2xl font-bold text-green-600">{metrics.acceptedInvitations}</p>
+              <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                Accepted
+              </p>
+              <p className="text-2xl font-bold text-green-600">
+                {metrics.acceptedInvitations}
+              </p>
             </div>
             <div className="bg-white dark:bg-zinc-900 p-6 rounded-lg shadow">
-              <p className="text-sm text-zinc-600 dark:text-zinc-400">Pending</p>
-              <p className="text-2xl font-bold text-yellow-600">{metrics.pendingInvitations}</p>
+              <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                Pending
+              </p>
+              <p className="text-2xl font-bold text-yellow-600">
+                {metrics.pendingInvitations}
+              </p>
             </div>
             <div className="bg-white dark:bg-zinc-900 p-6 rounded-lg shadow">
-              <p className="text-sm text-zinc-600 dark:text-zinc-400">Conversion Rate</p>
-              <p className="text-2xl font-bold text-blue-600">{metrics.conversionRate}%</p>
+              <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                Conversion Rate
+              </p>
+              <p className="text-2xl font-bold text-blue-600">
+                {metrics.conversionRate}%
+              </p>
             </div>
           </div>
         )}
@@ -189,7 +211,9 @@ export default function DashboardPage() {
                 disabled={createInvitationMutation.isPending}
                 className="px-6 py-2 bg-black dark:bg-zinc-50 text-white dark:text-black rounded-md hover:bg-zinc-800 dark:hover:bg-zinc-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black dark:focus:ring-zinc-500 disabled:opacity-50"
               >
-                {createInvitationMutation.isPending ? 'Sending...' : 'Send Invite'}
+                {createInvitationMutation.isPending
+                  ? 'Sending...'
+                  : 'Send Invite'}
               </button>
             </div>
             {createInvitationMutation.isError && (
@@ -199,28 +223,31 @@ export default function DashboardPage() {
                   : 'Failed to create invitation'}
               </p>
             )}
-            {createInvitationMutation.isSuccess && createInvitationMutation.data?.inviteLink && (
-              <div className="space-y-2">
-                <p className="text-sm text-green-600 dark:text-green-400">
-                  Invitation sent! Share this link:
-                </p>
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    readOnly
-                    value={createInvitationMutation.data.inviteLink}
-                    className="flex-1 rounded-md border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-3 py-2 text-sm text-black dark:text-zinc-50"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => copyInviteLink(createInvitationMutation.data.inviteLink)}
-                    className="px-4 py-2 bg-zinc-100 dark:bg-zinc-800 text-black dark:text-zinc-50 rounded-md hover:bg-zinc-200 dark:hover:bg-zinc-700 text-sm"
-                  >
-                    Copy
-                  </button>
+            {createInvitationMutation.isSuccess &&
+              createInvitationMutation.data?.inviteLink && (
+                <div className="space-y-2">
+                  <p className="text-sm text-green-600 dark:text-green-400">
+                    Invitation sent! Share this link:
+                  </p>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      readOnly
+                      value={createInvitationMutation.data.inviteLink}
+                      className="flex-1 rounded-md border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-3 py-2 text-sm text-black dark:text-zinc-50"
+                    />
+                    <button
+                      type="button"
+                      onClick={() =>
+                        copyInviteLink(createInvitationMutation.data.inviteLink)
+                      }
+                      className="px-4 py-2 bg-zinc-100 dark:bg-zinc-800 text-black dark:text-zinc-50 rounded-md hover:bg-zinc-200 dark:hover:bg-zinc-700 text-sm"
+                    >
+                      Copy
+                    </button>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
           </form>
         </div>
 
@@ -230,7 +257,9 @@ export default function DashboardPage() {
             Your Invitations
           </h3>
           {invitations.length === 0 ? (
-            <p className="text-zinc-600 dark:text-zinc-400">No invitations yet. Invite your first friend!</p>
+            <p className="text-zinc-600 dark:text-zinc-400">
+              No invitations yet. Invite your first friend!
+            </p>
           ) : (
             <div className="overflow-x-auto">
               <table className="min-w-full divide-y divide-zinc-200 dark:divide-zinc-800">
@@ -262,8 +291,8 @@ export default function DashboardPage() {
                             invitation.status === 'accepted'
                               ? 'bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-200'
                               : invitation.status === 'pending'
-                              ? 'bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-200'
-                              : 'bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-200'
+                                ? 'bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-200'
+                                : 'bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-200'
                           }`}
                         >
                           {invitation.status}
@@ -274,7 +303,9 @@ export default function DashboardPage() {
                       </td>
                       <td className="px-4 py-3 whitespace-nowrap text-sm text-zinc-600 dark:text-zinc-400">
                         {invitation.accepted_at
-                          ? new Date(invitation.accepted_at).toLocaleDateString()
+                          ? new Date(
+                              invitation.accepted_at
+                            ).toLocaleDateString()
                           : '-'}
                       </td>
                     </tr>
@@ -292,7 +323,8 @@ export default function DashboardPage() {
           </h3>
           {conversions.length === 0 ? (
             <p className="text-zinc-600 dark:text-zinc-400">
-              No conversions yet. When your invited friends sign up, they'll appear here.
+              No conversions yet. When your invited friends sign up, they'll
+              appear here.
             </p>
           ) : (
             <div className="space-y-4">
@@ -323,4 +355,3 @@ export default function DashboardPage() {
     </div>
   )
 }
-

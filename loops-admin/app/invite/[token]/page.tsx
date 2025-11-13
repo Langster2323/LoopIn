@@ -64,12 +64,16 @@ export default function InvitePage() {
             You're Invited!
           </h2>
           <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-            {invitation.inviter?.full_name || 'A friend'} has invited you to join
+            {invitation.inviter?.full_name || 'A friend'} has invited you to
+            join
           </p>
         </div>
         <div className="space-y-4">
           <p className="text-sm text-zinc-600 dark:text-zinc-400">
-            Email: <span className="font-medium text-black dark:text-zinc-50">{invitation.email}</span>
+            Email:{' '}
+            <span className="font-medium text-black dark:text-zinc-50">
+              {invitation.email}
+            </span>
           </p>
           <Link
             href={`/signup?token=${token}`}
@@ -79,7 +83,10 @@ export default function InvitePage() {
           </Link>
           <p className="text-xs text-zinc-500 dark:text-zinc-500">
             Already have an account?{' '}
-            <Link href="/login" className="font-medium text-black dark:text-zinc-50 hover:underline">
+            <Link
+              href="/login"
+              className="font-medium text-black dark:text-zinc-50 hover:underline"
+            >
               Sign in
             </Link>
           </p>
@@ -88,4 +95,3 @@ export default function InvitePage() {
     </div>
   )
 }
-

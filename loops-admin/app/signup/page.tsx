@@ -55,7 +55,9 @@ function SignupForm() {
       const contentType = response.headers.get('content-type')
       if (!contentType || !contentType.includes('application/json')) {
         const text = await response.text()
-        throw new Error(`Server error: ${response.status} ${response.statusText}`)
+        throw new Error(
+          `Server error: ${response.status} ${response.statusText}`
+        )
       }
 
       const data = await response.json()
@@ -183,7 +185,9 @@ function SignupForm() {
               disabled={signUpMutation.isPending}
               className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-black dark:bg-zinc-50 dark:text-black hover:bg-zinc-800 dark:hover:bg-zinc-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black dark:focus:ring-zinc-500 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {signUpMutation.isPending ? 'Creating account...' : 'Create account'}
+              {signUpMutation.isPending
+                ? 'Creating account...'
+                : 'Create account'}
             </button>
           </div>
         </form>
@@ -205,4 +209,3 @@ export default function SignupPage() {
     </Suspense>
   )
 }
-

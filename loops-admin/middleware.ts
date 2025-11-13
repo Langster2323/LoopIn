@@ -1,6 +1,6 @@
 /**
  * Next.js Middleware - Runs on every request before the page loads
- * 
+ *
  * This middleware:
  * - Refreshes Supabase auth sessions automatically
  * - Protects routes by redirecting unauthenticated users to /login
@@ -18,4 +18,3 @@ export const config = {
     '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 }
-

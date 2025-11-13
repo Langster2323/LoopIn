@@ -25,7 +25,8 @@ export default function Home() {
             Welcome to Loops Admin
           </h1>
           <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Manage your users, invite friends, and track conversion rates with ease.
+            Manage your users, invite friends, and track conversion rates with
+            ease.
           </p>
         </div>
         <div className="flex flex-col gap-4 sm:flex-row">

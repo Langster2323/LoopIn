@@ -10,27 +10,23 @@ export async function GET() {
   } = await supabase.auth.getUser()
 
   if (!user) {
-    return NextResponse.json(
-      { error: 'Unauthorized' },
-      { status: 401 }
-    )
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
   // Get all conversions for this user
   const { data: conversions, error: convError } = await supabase
     .from('conversions')
-    .select(`
+    .select(
+      `
       *,
       invitee:profiles!conversions_invitee_id_fkey(id, email, full_name, created_at)
-    `)
+    `
+    )
     .eq('inviter_id', user.id)
     .order('converted_at', { ascending: false })
 
   if (convError) {
-    return NextResponse.json(
-      { error: convError.message },
-      { status: 400 }
-    )
+    return NextResponse.json({ error: convError.message }, { status: 400 })
   }
 
   // Get invitation stats
@@ -40,18 +36,18 @@ export async function GET() {
     .eq('inviter_id', user.id)
 
   if (invError) {
-    return NextResponse.json(
-      { error: invError.message },
-      { status: 400 }
-    )
+    return NextResponse.json({ error: invError.message }, { status: 400 })
   }
 
   // Calculate metrics
   const totalInvitations = invitations?.length || 0
-  const acceptedInvitations = invitations?.filter((inv) => inv.status === 'accepted').length || 0
-  const pendingInvitations = invitations?.filter((inv) => inv.status === 'pending').length || 0
+  const acceptedInvitations =
+    invitations?.filter((inv) => inv.status === 'accepted').length || 0
+  const pendingInvitations =
+    invitations?.filter((inv) => inv.status === 'pending').length || 0
   const totalConversions = conversions?.length || 0
-  const conversionRate = totalInvitations > 0 ? (totalConversions / totalInvitations) * 100 : 0
+  const conversionRate =
+    totalInvitations > 0 ? (totalConversions / totalInvitations) * 100 : 0
 
   return NextResponse.json({
     conversions: conversions || [],
@@ -64,4 +60,3 @@ export async function GET() {
     },
   })
 }
-

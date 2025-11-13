@@ -10,15 +10,14 @@ export async function GET(
 
   const { data, error } = await supabase
     .from('invitations')
-    .select('*, inviter:profiles!invitations_inviter_id_fkey(id, email, full_name)')
+    .select(
+      '*, inviter:profiles!invitations_inviter_id_fkey(id, email, full_name)'
+    )
     .eq('token', token)
     .single()
 
   if (error || !data) {
-    return NextResponse.json(
-      { error: 'Invitation not found' },
-      { status: 404 }
-    )
+    return NextResponse.json({ error: 'Invitation not found' }, { status: 404 })
   }
 
   // Check if expired
@@ -40,4 +39,3 @@ export async function GET(
 
   return NextResponse.json({ invitation: data })
 }
-

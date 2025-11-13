@@ -131,6 +131,7 @@ npm run format:check
 #### Prettier Configuration
 
 The Prettier configuration is defined in `.prettierrc.yml` with the following settings:
+
 - 80 character line width
 - 2 space indentation
 - Single quotes
@@ -140,6 +141,7 @@ The Prettier configuration is defined in `.prettierrc.yml` with the following se
 #### CI Integration
 
 Prettier formatting checks are automatically run in GitHub Actions on every push and pull request. The CI workflow (`.github/workflows/ci.yml`) will:
+
 1. Check code formatting with Prettier
 2. Run ESLint
 3. Type check with TypeScript
@@ -159,6 +161,7 @@ To ensure Prettier checks (and other CI checks) are required before merging pull
 6. Optionally enable **Require branches to be up to date before merging**
 
 This ensures that:
+
 - All Prettier formatting checks must pass
 - All ESLint checks must pass
 - TypeScript type checking must pass
@@ -196,13 +199,16 @@ This project was built using the following resources and tools:
 ## Troubleshooting
 
 ### "Invalid API key" error
+
 - Make sure your `.env.local` file has the correct Supabase URL and anon key
 - Restart your development server after changing environment variables
 
 ### Database errors
+
 - Ensure you've run the SQL schema in your Supabase SQL Editor
 - Check that all tables and policies were created successfully
 
 ### Authentication not working
+
 - Verify your Supabase project is active
 - Check that email authentication is enabled in Supabase Auth settings

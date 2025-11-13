@@ -18,10 +18,7 @@ export async function POST(request: Request) {
   })
 
   if (error) {
-    return NextResponse.json(
-      { error: error.message },
-      { status: 401 }
-    )
+    return NextResponse.json({ error: error.message }, { status: 401 })
   }
 
   return NextResponse.json({
@@ -29,4 +26,3 @@ export async function POST(request: Request) {
     message: 'Signed in successfully',
   })
 }
-

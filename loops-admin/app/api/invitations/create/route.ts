@@ -11,10 +11,7 @@ export async function POST(request: Request) {
   } = await supabase.auth.getUser()
 
   if (!user) {
-    return NextResponse.json(
-      { error: 'Unauthorized' },
-      { status: 401 }
-    )
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
   // Ensure profile exists (for users who signed up before trigger was set up)
@@ -34,7 +31,10 @@ export async function POST(request: Request) {
 
     if (profileError) {
       return NextResponse.json(
-        { error: 'Failed to create user profile. Please try signing out and back in.' },
+        {
+          error:
+            'Failed to create user profile. Please try signing out and back in.',
+        },
         { status: 500 }
       )
     }
@@ -43,10 +43,7 @@ export async function POST(request: Request) {
   const { email } = await request.json()
 
   if (!email) {
-    return NextResponse.json(
-      { error: 'Email is required' },
-      { status: 400 }
-    )
+    return NextResponse.json({ error: 'Email is required' }, { status: 400 })
   }
 
   // Generate unique token
@@ -65,10 +62,7 @@ export async function POST(request: Request) {
     .single()
 
   if (error) {
-    return NextResponse.json(
-      { error: error.message },
-      { status: 400 }
-    )
+    return NextResponse.json({ error: error.message }, { status: 400 })
   }
 
   // Generate invite link
@@ -80,4 +74,3 @@ export async function POST(request: Request) {
     message: 'Invitation created successfully',
   })
 }
-

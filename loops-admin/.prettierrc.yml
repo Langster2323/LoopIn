@@ -54,4 +54,3 @@ proseWrap: 'preserve'
 
 # Single attribute per line
 singleAttributePerLine: false
-

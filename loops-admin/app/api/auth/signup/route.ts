@@ -25,10 +25,7 @@ export async function POST(request: Request) {
     })
 
     if (authError) {
-      return NextResponse.json(
-        { error: authError.message },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: authError.message }, { status: 400 })
     }
 
     if (!authData.user) {
@@ -94,9 +91,13 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error('Signup error:', error)
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'An unexpected error occurred' },
+      {
+        error:
+          error instanceof Error
+            ? error.message
+            : 'An unexpected error occurred',
+      },
       { status: 500 }
     )
   }
 }
-
