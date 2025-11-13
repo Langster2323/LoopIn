@@ -147,6 +147,25 @@ Prettier formatting checks are automatically run in GitHub Actions on every push
 
 If formatting checks fail, you can fix them locally by running `npm run format` and committing the changes.
 
+#### Requiring Checks for Pull Requests
+
+To ensure Prettier checks (and other CI checks) are required before merging pull requests:
+
+1. Go to your repository on GitHub
+2. Navigate to **Settings** > **Branches**
+3. Add or edit branch protection rules for `main` (and `develop` if applicable)
+4. Enable **Require status checks to pass before merging**
+5. Select the `lint-and-format` job from the list of required status checks
+6. Optionally enable **Require branches to be up to date before merging**
+
+This ensures that:
+- All Prettier formatting checks must pass
+- All ESLint checks must pass
+- TypeScript type checking must pass
+- The build must succeed
+
+Pull requests cannot be merged until all these checks pass.
+
 ## Security Features
 
 - Row Level Security (RLS) enabled on all tables
