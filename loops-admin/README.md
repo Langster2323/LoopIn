@@ -300,6 +300,32 @@ After deploying, make sure to:
 
 ### Deployment issues on Vercel
 
+- **404 Error on deployment:**
+  - **Check environment variables:** Ensure `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` are set in Vercel project settings
+  - **Verify build logs:** Check the Vercel deployment logs for any build errors
+  - **Redeploy:** After adding environment variables, trigger a new deployment
+
+- **Cache issues (stale deployments):**
+  - **Clear Vercel build cache:**
+    1. Go to your Vercel project dashboard
+    2. Navigate to **Settings** → **General**
+    3. Scroll down to **"Clear Build Cache"** and click it
+    4. Redeploy your project
+  - **Force a fresh deployment:**
+    1. Make a small change (like adding a comment) to any file
+    2. Commit and push to trigger a new deployment
+    3. Or use Vercel CLI: `vercel --force`
+  - **Clear CDN cache:**
+    1. In Vercel dashboard, go to **Deployments**
+    2. Click the three dots (⋯) on your production deployment
+    3. Select **"Redeploy"** with **"Use existing Build Cache"** unchecked
+  - **Browser cache:**
+    - Hard refresh: `Ctrl+Shift+R` (Windows/Linux) or `Cmd+Shift+R` (Mac)
+    - Or open in incognito/private mode
+  - **Environment variable cache:**
+    - After adding/updating env vars, you MUST redeploy for changes to take effect
+    - Vercel caches env vars during build time
+
 - **Build fails:** Check the build logs in Vercel dashboard for specific errors
 - **Environment variables not working:** Make sure variables are added for all environments (Production, Preview, Development)
 - **Invitation links broken:** Verify `NEXT_PUBLIC_APP_URL` is set to your Vercel deployment URL
