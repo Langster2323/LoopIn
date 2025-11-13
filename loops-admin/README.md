@@ -188,13 +188,98 @@ This project was built using the following resources and tools:
 - **[v0.dev](https://v0.dev)** - Used for visual representation and UI design inspiration
 - **[Loveable](https://loveable.dev)** - Used for visual representation and UI design inspiration
 
+## Deployment to Vercel
+
+Vercel offers a free tier that's perfect for deploying Next.js applications. Follow these steps to deploy your app:
+
+### Prerequisites
+
+1. Push your code to a Git repository (GitHub, GitLab, or Bitbucket)
+2. Have your Supabase credentials ready
+
+### Step-by-Step Deployment
+
+#### 1. Create a Vercel Account
+
+1. Go to [vercel.com](https://vercel.com)
+2. Sign up with your GitHub, GitLab, or Bitbucket account (recommended for easy integration)
+
+#### 2. Import Your Project
+
+1. Click **"Add New..."** → **"Project"**
+2. Import your Git repository
+3. Vercel will automatically detect it's a Next.js project
+
+#### 3. Configure Environment Variables
+
+Before deploying, add your environment variables in Vercel:
+
+1. In the project settings, go to **Settings** → **Environment Variables**
+2. Add the following variables:
+
+```
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+NEXT_PUBLIC_APP_URL=https://your-app-name.vercel.app
+```
+
+**Important:** 
+- Replace `your_supabase_project_url` with your actual Supabase project URL
+- Replace `your_supabase_anon_key` with your actual Supabase anon key
+- For `NEXT_PUBLIC_APP_URL`, use your Vercel deployment URL (you can update this after the first deployment)
+
+#### 4. Deploy
+
+1. Click **"Deploy"**
+2. Vercel will build and deploy your application
+3. The deployment typically takes 1-2 minutes
+
+#### 5. Update App URL (After First Deployment)
+
+1. Once deployed, copy your production URL (e.g., `https://your-app-name.vercel.app`)
+2. Go back to **Settings** → **Environment Variables**
+3. Update `NEXT_PUBLIC_APP_URL` with your actual Vercel URL
+4. Redeploy (or wait for automatic redeploy on next push)
+
+### Automatic Deployments
+
+Vercel automatically deploys:
+- **Production:** Every push to your `main` branch
+- **Preview:** Every push to other branches (creates a preview URL)
+
+### Vercel Free Tier Limits
+
+The free tier includes:
+- ✅ Unlimited personal projects
+- ✅ 100GB bandwidth per month
+- ✅ 100 serverless function executions per day
+- ✅ Automatic SSL certificates
+- ✅ Global CDN
+- ✅ Preview deployments for every PR
+
+### Post-Deployment Checklist
+
+After deploying, make sure to:
+
+1. ✅ Test the signup/login flow
+2. ✅ Verify environment variables are set correctly
+3. ✅ Test invitation creation and acceptance
+4. ✅ Check that the dashboard loads correctly
+5. ✅ Update `NEXT_PUBLIC_APP_URL` in Supabase if needed (for invitation links)
+
+### Custom Domain (Optional)
+
+1. Go to **Settings** → **Domains**
+2. Add your custom domain
+3. Follow Vercel's DNS configuration instructions
+4. Update `NEXT_PUBLIC_APP_URL` to your custom domain
+
 ## Next Steps
 
 - Add email notifications for invitations
 - Implement invitation expiration handling
 - Add more detailed analytics and reporting
 - Customize the UI to match your brand
-- Deploy to production (Vercel recommended)
 
 ## Troubleshooting
 
@@ -212,3 +297,11 @@ This project was built using the following resources and tools:
 
 - Verify your Supabase project is active
 - Check that email authentication is enabled in Supabase Auth settings
+
+### Deployment issues on Vercel
+
+- **Build fails:** Check the build logs in Vercel dashboard for specific errors
+- **Environment variables not working:** Make sure variables are added for all environments (Production, Preview, Development)
+- **Invitation links broken:** Verify `NEXT_PUBLIC_APP_URL` is set to your Vercel deployment URL
+- **Database connection errors:** Ensure your Supabase project is active and the URL/key are correct
+- **CORS errors:** Check Supabase settings to ensure your Vercel domain is allowed (usually automatic)
