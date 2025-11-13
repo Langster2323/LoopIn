@@ -2,13 +2,21 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function updateSession(request: NextRequest) {
+  // Early return if environment variables are missing (prevents 404 errors)
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+    return NextResponse.next({
+      request,
+    })
+  }
+
   let supabaseResponse = NextResponse.next({
     request,
   })
 
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+  try {
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     {
       cookies: {
         getAll() {
@@ -56,4 +64,11 @@ export async function updateSession(request: NextRequest) {
   }
 
   return supabaseResponse
+  } catch (error) {
+    // Log error but don't crash the app
+    console.error('Middleware error:', error)
+    return NextResponse.next({
+      request,
+    })
+  }
 }
