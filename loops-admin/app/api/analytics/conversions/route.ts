@@ -29,6 +29,19 @@ export async function GET() {
     return NextResponse.json({ error: convError.message }, { status: 400 })
   }
 
+  // Transform conversions to handle invitee data structure
+  // Supabase might return invitee as an array or object depending on the relationship
+  const transformedConversions = (conversions || []).map((conv: any) => {
+    const invitee = Array.isArray(conv.invitee) 
+      ? conv.invitee[0] 
+      : conv.invitee
+    
+    return {
+      ...conv,
+      invitee: invitee || null
+    }
+  })
+
   // Get invitation stats
   const { data: invitations, error: invError } = await supabase
     .from('invitations')
@@ -50,7 +63,7 @@ export async function GET() {
     totalInvitations > 0 ? (totalConversions / totalInvitations) * 100 : 0
 
   return NextResponse.json({
-    conversions: conversions || [],
+    conversions: transformedConversions,
     metrics: {
       totalInvitations,
       acceptedInvitations,

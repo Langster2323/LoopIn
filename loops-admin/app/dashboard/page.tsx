@@ -336,10 +336,10 @@ export default function DashboardPage() {
                   <div className="flex justify-between items-start">
                     <div>
                       <p className="font-medium text-black dark:text-zinc-50">
-                        {conversion.invitee?.full_name || 'Unknown User'}
+                        {conversion.invitee?.full_name || conversion.invitee?.email || 'Unknown User'}
                       </p>
                       <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                        {conversion.invitee?.email}
+                        {conversion.invitee?.email || 'No email available'}
                       </p>
                     </div>
                     <p className="text-sm text-zinc-600 dark:text-zinc-400">

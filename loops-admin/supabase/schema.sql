@@ -58,6 +58,16 @@ CREATE POLICY "Users can insert their own profile"
   ON public.profiles FOR INSERT
   WITH CHECK (auth.uid() = id);
 
+CREATE POLICY "Users can view invitee profiles from their conversions"
+  ON public.profiles FOR SELECT
+  USING (
+    id IN (
+      SELECT invitee_id 
+      FROM public.conversions 
+      WHERE inviter_id = auth.uid()
+    )
+  );
+
 -- Invitations policies
 CREATE POLICY "Users can view their own invitations"
   ON public.invitations FOR SELECT
