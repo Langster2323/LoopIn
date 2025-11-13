@@ -1,0 +1,56 @@
+# Prettier Configuration
+# https://prettier.io/docs/en/configuration.html
+
+# Print width
+printWidth: 80
+
+# Tab width
+tabWidth: 2
+
+# Use spaces instead of tabs
+useTabs: false
+
+# Semicolons
+semi: false
+
+# Single quotes
+singleQuote: true
+
+# Quote props only when needed
+quoteProps: 'as-needed'
+
+# JSX quotes
+jsxSingleQuote: false
+
+# Trailing commas
+trailingComma: 'es5'
+
+# Bracket spacing
+bracketSpacing: true
+
+# Bracket same line
+bracketSameLine: false
+
+# Arrow function parentheses
+arrowParens: 'always'
+
+# End of line
+endOfLine: 'lf'
+
+# Embedded language formatting
+embeddedLanguageFormatting: 'auto'
+
+# HTML whitespace sensitivity
+htmlWhitespaceSensitivity: 'css'
+
+# Insert Pragma
+insertPragma: false
+
+# Require Pragma
+requirePragma: false
+
+# Prose wrap
+proseWrap: 'preserve'
+
+# Single attribute per line
+singleAttributePerLine: false

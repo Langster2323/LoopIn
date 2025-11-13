@@ -1,0 +1,80 @@
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+
+# Build outputs
+.next
+out
+build
+dist
+*.tsbuildinfo
+
+# Testing
+coverage
+.nyc_output
+
+# Environment variables
+.env
+.env*.local
+
+# Generated files
+next-env.d.ts
+
+# Package manager files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Config files (keep these as-is)
+*.config.js
+*.config.ts
+*.config.mjs
+eslint.config.*
+postcss.config.*
+tailwind.config.*
+
+# Public assets
+public
+*.svg
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+*.ico
+
+# Documentation (optional - remove if you want to format markdown)
+*.md
+!README.md
+
+# Database files
+*.sql
+*.db
+*.sqlite
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Vercel
+.vercel
+
+# Misc
+*.pem
+.git
+.github
