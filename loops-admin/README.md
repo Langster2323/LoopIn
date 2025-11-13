@@ -11,6 +11,7 @@ A comprehensive user management system built with Next.js that includes authenti
 - ✅ Secure Row Level Security (RLS) policies
 - ✅ Modern, responsive UI with dark mode support
 - ✅ Atomic Design component architecture for maintainability and reusability
+- ✅ End-to-end testing with Playwright
 
 ## Tech Stack
 
@@ -20,6 +21,7 @@ A comprehensive user management system built with Next.js that includes authenti
 - **TanStack Query** - Data fetching and state management
 - **Tailwind CSS** - Utility-first CSS framework
 - **Prettier** - Code formatter for consistent code style
+- **Playwright** - End-to-end testing framework
 
 ## Prerequisites
 
@@ -38,6 +40,7 @@ A comprehensive user management system built with Next.js that includes authenti
 1. In your Supabase dashboard, go to the SQL Editor
 2. Copy and paste the contents of `supabase/schema.sql`
 3. Run the SQL script to create all necessary tables, policies, and triggers
+4. Run the SQL script in `supabase/add_invitee_profile_policy.sql` to enable viewing invitee profiles
 
 ### 3. Configure Environment Variables
 
@@ -57,7 +60,13 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 npm install
 ```
 
-### 5. Run the Development Server
+### 5. Install Playwright Browsers (for E2E testing)
+
+```bash
+npx playwright install --with-deps
+```
+
+### 6. Run the Development Server
 
 ```bash
 npm run dev
@@ -111,8 +120,13 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 │   ├── molecules/         # Simple component combinations
 │   ├── organisms/         # Complex UI components
 │   └── templates/         # Page-level layouts
+├── e2e/                   # End-to-end tests
+│   ├── helpers/           # Test helper functions
+│   ├── auth.spec.ts       # Authentication tests
+│   ├── invitations.spec.ts # Invitation flow tests
+│   └── dashboard.spec.ts  # Dashboard tests
 ├── lib/
-│   └── supabase/          # Supabase client utilities
+│   └── supabase/        # Supabase client utilities
 ├── supabase/
 │   └── schema.sql         # Database schema
 └── middleware.ts          # Auth middleware
@@ -259,6 +273,73 @@ Always:
 - Support dark mode via Tailwind classes
 - Make components accessible (ARIA labels, keyboard navigation)
 
+## Testing
+
+This project includes comprehensive end-to-end (E2E) testing using Playwright.
+
+### Running Tests
+
+```bash
+# Run all E2E tests
+npm run test:e2e
+
+# Run tests with UI mode (interactive)
+npm run test:e2e:ui
+
+# Run tests in headed mode (see browser)
+npm run test:e2e:headed
+
+# Run tests in debug mode
+npm run test:e2e:debug
+```
+
+### Test Structure
+
+Tests are organized in the `e2e/` directory:
+
+- **`auth.spec.ts`** - Authentication flows (signup, login, logout)
+- **`invitations.spec.ts`** - Invitation creation and acceptance flows
+- **`dashboard.spec.ts`** - Dashboard functionality and metrics
+
+### Test Helpers
+
+Helper functions are located in `e2e/helpers/`:
+
+- **`auth.ts`** - Authentication helper functions (signUpUser, signInUser, etc.)
+- **`invitations.ts`** - Invitation helper functions (createInvitation, acceptInvitation, etc.)
+
+### Writing New Tests
+
+When writing new E2E tests:
+
+1. Create a new `.spec.ts` file in the `e2e/` directory
+2. Use helper functions from `e2e/helpers/` for common operations
+3. Follow the existing test patterns for consistency
+4. Use descriptive test names that explain what is being tested
+
+**Example:**
+```tsx
+import { test, expect } from '@playwright/test'
+import { createTestUser, signUpUser } from './helpers/auth'
+
+test('should display user dashboard', async ({ page }) => {
+  const user = createTestUser()
+  await signUpUser(page, user)
+  
+  await expect(page.locator('text=Welcome back')).toBeVisible()
+})
+```
+
+### CI Integration
+
+E2E tests run automatically in GitHub Actions on every push and pull request. The CI workflow will:
+
+1. Install dependencies
+2. Install Playwright browsers
+3. Build the application
+4. Run all E2E tests
+5. Upload test results as artifacts
+
 ## Development
 
 ### Code Formatting
@@ -293,6 +374,7 @@ Prettier formatting checks are automatically run in GitHub Actions on every push
 2. Run ESLint
 3. Type check with TypeScript
 4. Build the project
+5. Run E2E tests
 
 If formatting checks fail, you can fix them locally by running `npm run format` and committing the changes.
 
@@ -304,7 +386,7 @@ To ensure Prettier checks (and other CI checks) are required before merging pull
 2. Navigate to **Settings** > **Branches**
 3. Add or edit branch protection rules for `main` (and `develop` if applicable)
 4. Enable **Require status checks to pass before merging**
-5. Select the `lint-and-format` job from the list of required status checks
+5. Select the `lint-and-format` and `e2e-tests` jobs from the list of required status checks
 6. Optionally enable **Require branches to be up to date before merging**
 
 This ensures that:
@@ -313,6 +395,7 @@ This ensures that:
 - All ESLint checks must pass
 - TypeScript type checking must pass
 - The build must succeed
+- All E2E tests must pass
 
 Pull requests cannot be merged until all these checks pass.
 
@@ -332,6 +415,7 @@ This project was built using the following resources and tools:
 - **[Supabase](https://supabase.com)** - Provides authentication service and PostgreSQL database for all user data, invitations, and conversions
 - **[TanStack Query](https://tanstack.com/query/latest)** - Used for cleaner code and efficient data fetching, state management, and caching throughout the application
 - **[Tailwind CSS](https://tailwindcss.com)** - Utility-first CSS framework used for all styling and responsive design
+- **[Playwright](https://playwright.dev)** - End-to-end testing framework for reliable browser automation
 - **[v0.dev](https://v0.dev)** - Used for visual representation and UI design inspiration
 - **[Loveable](https://loveable.dev)** - Used for visual representation and UI design inspiration
 
@@ -427,6 +511,7 @@ After deploying, make sure to:
 - Implement invitation expiration handling
 - Add more detailed analytics and reporting
 - Customize the UI to match your brand
+- Expand E2E test coverage
 
 ## Troubleshooting
 
@@ -439,11 +524,19 @@ After deploying, make sure to:
 
 - Ensure you've run the SQL schema in your Supabase SQL Editor
 - Check that all tables and policies were created successfully
+- Make sure you've run the `add_invitee_profile_policy.sql` script
 
 ### Authentication not working
 
 - Verify your Supabase project is active
 - Check that email authentication is enabled in Supabase Auth settings
+
+### E2E tests failing
+
+- Make sure your development server is running (`npm run dev`)
+- Verify your Supabase credentials are correct
+- Check that the database schema is set up correctly
+- Ensure the RLS policy for viewing invitee profiles is in place
 
 ### Deployment issues on Vercel
 
