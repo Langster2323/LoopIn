@@ -18,6 +18,7 @@ A comprehensive user management system built with Next.js that includes authenti
 - **Supabase** - Authentication and PostgreSQL database
 - **TanStack Query** - Data fetching and state management
 - **Tailwind CSS** - Utility-first CSS framework
+- **Prettier** - Code formatter for consistent code style
 
 ## Prerequisites
 
@@ -110,6 +111,41 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 │   └── schema.sql         # Database schema
 └── middleware.ts          # Auth middleware
 ```
+
+## Development
+
+### Code Formatting
+
+This project uses [Prettier](https://prettier.io) for consistent code formatting. Prettier checks are automatically run in CI to ensure code quality.
+
+#### Formatting Commands
+
+```bash
+# Format all files
+npm run format
+
+# Check if files are formatted (used in CI)
+npm run format:check
+```
+
+#### Prettier Configuration
+
+The Prettier configuration is defined in `.prettierrc.yml` with the following settings:
+- 80 character line width
+- 2 space indentation
+- Single quotes
+- No semicolons
+- Trailing commas (ES5)
+
+#### CI Integration
+
+Prettier formatting checks are automatically run in GitHub Actions on every push and pull request. The CI workflow (`.github/workflows/ci.yml`) will:
+1. Check code formatting with Prettier
+2. Run ESLint
+3. Type check with TypeScript
+4. Build the project
+
+If formatting checks fail, you can fix them locally by running `npm run format` and committing the changes.
 
 ## Security Features
 
